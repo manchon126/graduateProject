@@ -8,17 +8,17 @@ import pandas as pd
 #UpbitQuotationAPI의 marketCode.py에서 marketCode 열람
 marketCode = "KRW-EOS"
 
-#조회할 분봉 데이터의 가장 최근 연/월(31일 23:59:00 이 기준)
+#조회할 분봉 데이터 기간의 가장 최근 연/월(31일 23:59:00 이 기준)
 startYear=2021
 startMonth="12"
 
-#조회할 분봉 데이터의 가장 오래된 연/월(01일 00:00:00 이 기준)
+#조회할 분봉 데이터 기간의 가장 오래된 연/월(01일 00:00:00 이 기준)
 endYear=2021
-endMonth="01"
+endMonth="03"
 
 
-# 1, 3, 5, 15, 10, 30, 60, 240분봉 중 택1
-minuteInterval = 1
+# 1, 3, 5, 10, 15, 30, 60, 240분봉 중 택1
+minuteInterval = 30
 
 
 
@@ -92,7 +92,7 @@ while True:
 
             candle_date_time_UTC = new_data[3]
             #newYear = candle_date_time_UTC[:4]
-            #newMonth = candle_date_time_UTC[5:7]
+            newMonth = candle_date_time_UTC[5:7]
             newDay = candle_date_time_UTC[8:10]
             newHour = candle_date_time_UTC[11:13]            
             newMinute = candle_date_time_UTC[14:16]            
@@ -102,7 +102,7 @@ while True:
             print(str(year)+"-"+newMonth+"-"+newDay+" "+newHour+":"+newMinute+":00")
             
             
-            if year == endYear and newMonth ==endMonth and newDay=="01" and newHour=="00" and newMinute=="00":
+            if year == endYear and newMonth == endMonth and newDay=="01" and newHour=="00" and newMinute=="00":
                 queryDoneFlag = True
                 break;
                 
@@ -118,25 +118,28 @@ while True:
         df = df.append(monthDf)
         monthDf = pd.DataFrame([], columns=["market", "candle_date_time_utc", "candle_date_time_kst",
                                             "opening_price","high_price", "low_price", "trade_price",
-                                            "timestamp", "candle_acc_trade_price", "candle_acc_trade_volume", "unit"])                         
+                                            "timestamp", "candle_acc_trade_price", "candle_acc_trade_volume", "unit"])                     
 
-
-        newMonth = candle_date_time_UTC[5:7]
+        
         if newMonth == "10":
             newMonth = "09"
         else:
             newMonth = newMonth[0] + str(int(newMonth[1])-1)
 
-        monthDoneFlag = False
         
         if newMonth=="00":
             year = year-1            
             newMonth = "12"
-            newDay = "31"
-            newHour = "23"
-            newMinute = "59"
-            
-                
+         
+        
+        newDay = "31"
+        newHour = "23"
+        newMinute = "59"
+        
+        
+        monthDoneFlag = False     
+        
+        
      
     if queryDoneFlag:
         break;     
@@ -149,9 +152,10 @@ while True:
     response = requests.request("GET", url, headers=headers)
     responseTxt = response.text
    
-    #그 해 1월 1일 이후에 거래소에 상장한 경우
+    #그 해 1월 1일이 지나서 거래소에 상장한 경우
     if responseTxt== "[]": 
         break;
-    
-    
-df.to_csv(str(minuteInterval)+"MinuteCandle_"+marketCode+"_"+str(year)+".csv", quoting=1)
+        
+        
+        
+df.to_csv(str(minuteInterval)+"MinuteCandle_"+marketCode+"_"+str(startYear)+"."+startMonth+"_"+str(endYear)+"."+endMonth+".csv", quoting=1)
