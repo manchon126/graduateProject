@@ -12,9 +12,9 @@ from urllib.parse import urlencode
 
 import requests
 
-os.environ['UPBIT_OPEN_API_ACCESS_KEY'] = "UC4uPBtI1nIGGS8ZYIXjPagQBiOAxKx4LJMkWgx9"
+os.environ['UPBIT_OPEN_API_ACCESS_KEY'] = ""
 access_key = os.environ['UPBIT_OPEN_API_ACCESS_KEY']
-os.environ['UPBIT_OPEN_API_SECRET_KEY'] = "wi1dRxWpYXGTmYQBOjuZr5SOHukHSxL2TZFYU2Rr"
+os.environ['UPBIT_OPEN_API_SECRET_KEY'] = ""
 secret_key = os.environ['UPBIT_OPEN_API_SECRET_KEY']
 os.environ['UPBIT_OPEN_API_SERVER_URL'] = "https://api.upbit.com"
 server_url = os.environ['UPBIT_OPEN_API_SERVER_URL']
