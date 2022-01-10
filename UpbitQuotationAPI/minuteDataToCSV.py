@@ -142,6 +142,7 @@ while True:
         
      
     if queryDoneFlag:
+        df = df.append(monthDf)
         break;     
             
 
