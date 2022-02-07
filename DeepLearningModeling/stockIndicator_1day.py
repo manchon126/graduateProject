@@ -69,7 +69,7 @@ datasetDayChart = dfDayChart.values
 
 
 _1MinuteChartIdxConverter = {}
-idx = 0ㄷㄷ
+idx = 0
 for dataset_1MinuteChartRow in dataset_1MinuteChart:
     newsTimeStr = from_1MinuteChartTimeToNewsTime(dataset_1MinuteChartRow[3])
     _1MinuteChartIdxConverter[newsTimeStr] = idx
